@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gohar & Naveed — Wedding Invitation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #1a2a1a;
+      font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+    }
+
+    .card {
+      position: relative;
+      width: min(480px, 94vw);
+      min-height: 820px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+      border-radius: 4px;
+    }
+
+    .bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      z-index: 0;
+    }
+
+    /* soft cream overlay so text is legible over the forest */
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        ellipse 75% 65% at 50% 38%,
+        rgba(255,252,240,0.82) 0%,
+        rgba(255,252,240,0.60) 55%,
+        rgba(255,252,240,0.10) 100%
+      );
+      z-index: 1;
+    }
+
+    .content {
+      position: relative;
+      z-index: 2;
+      padding: 64px 48px 52px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      width: 100%;
+    }
+
+    /* monogram */
+    .monogram {
+      font-size: 1.6rem;
+      font-weight: 300;
+      letter-spacing: 0.35em;
+      color: #6b5a34;
+      margin-bottom: 6px;
+    }
+
+    .monogram-divider {
+      display: inline-block;
+      margin: 0 10px;
+      font-weight: 200;
+      color: #b89a50;
+    }
+
+    .bismillah {
+      font-size: 0.88rem;
+      font-style: italic;
+      color: #5a4a2a;
+      letter-spacing: 0.04em;
+      line-height: 1.65;
+      margin-top: 22px;
+      max-width: 300px;
+    }
+
+    .parents {
+      margin-top: 22px;
+      font-size: 1.02rem;
+      font-style: italic;
+      color: #3a3020;
+      line-height: 1.75;
+      letter-spacing: 0.04em;
+    }
+
+    .ampersand-small {
+      font-size: 1.25rem;
+      color: #b89a50;
+      display: block;
+      margin: 2px 0;
+    }
+
+    .invite-text {
+      margin-top: 18px;
+      font-size: 0.88rem;
+      font-style: italic;
+      color: #5a4a2a;
+      letter-spacing: 0.06em;
+    }
+
+    .names {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .name {
+      font-size: 2.4rem;
+      font-weight: 300;
+      letter-spacing: 0.45em;
+      color: #2c2210;
+      line-height: 1.1;
+    }
+
+    .ampersand-large {
+      font-size: 2rem;
+      color: #b89a50;
+      font-style: italic;
+      letter-spacing: 0.1em;
+      margin: 4px 0;
+    }
+
+    .divider-line {
+      width: 120px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #b89a50, transparent);
+      margin: 24px auto;
+    }
+
+    .date {
+      font-size: 1.0rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      color: #2c2210;
+      text-transform: uppercase;
+    }
+
+    .date sup {
+      font-size: 0.55em;
+      vertical-align: super;
+      letter-spacing: 0;
+    }
+
+    .time {
+      margin-top: 6px;
+      font-size: 0.92rem;
+      font-style: italic;
+      color: #5a4a2a;
+      letter-spacing: 0.06em;
+    }
+
+    .venue {
+      margin-top: 8px;
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      color: #4a3c1e;
+      text-transform: uppercase;
+    }
+
+    .dinner {
+      margin-top: 18px;
+      font-size: 0.88rem;
+      font-style: italic;
+      color: #5a4a2a;
+      letter-spacing: 0.06em;
+    }
+
+    /* RSVP button */
+    .rsvp-wrap {
+      margin-top: 32px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .rsvp-btn {
+      display: inline-block;
+      padding: 13px 42px;
+      background: transparent;
+      border: 1.5px solid #b89a50;
+      color: #6b5a34;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+      border-radius: 2px;
+    }
+
+    .rsvp-btn:hover {
+      background: #b89a50;
+      color: #fff8ea;
+    }
+
+    /* RSVP modal */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(20, 18, 10, 0.72);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal {
+      background: #fffcf0;
+      border: 1px solid #d4b870;
+      border-radius: 4px;
+      padding: 40px 36px;
+      width: min(400px, 90vw);
+      text-align: center;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 12px; right: 16px;
+      font-size: 1.4rem;
+      color: #9a8050;
+      cursor: pointer;
+      background: none;
+      border: none;
+      line-height: 1;
+    }
+
+    .modal h2 {
+      font-size: 1.6rem;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      color: #2c2210;
+      margin-bottom: 6px;
+    }
+
+    .modal-sub {
+      font-size: 0.82rem;
+      font-style: italic;
+      color: #6b5a34;
+      letter-spacing: 0.06em;
+      margin-bottom: 26px;
+    }
+
+    .modal label {
+      display: block;
+      text-align: left;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #5a4a2a;
+      margin-bottom: 4px;
+      margin-top: 14px;
+    }
+
+    .modal input,
+    .modal select {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid #c9b06a;
+      background: #fdf9ee;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 0.95rem;
+      color: #2c2210;
+      border-radius: 2px;
+      outline: none;
+    }
+
+    .modal input:focus,
+    .modal select:focus {
+      border-color: #b89a50;
+    }
+
+    .modal-submit {
+      margin-top: 22px;
+      width: 100%;
+      padding: 12px;
+      background: #b89a50;
+      color: #fff8ea;
+      border: none;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 0.88rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: background 0.2s;
+    }
+
+    .modal-submit:hover { background: #9a7e3c; }
+
+    .modal-thanks {
+      display: none;
+      padding: 20px 0 10px;
+    }
+
+    .modal-thanks p {
+      font-size: 1.1rem;
+      font-style: italic;
+      color: #5a4a2a;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 520px) {
+      .content { padding: 48px 28px 40px; }
+      .name { font-size: 1.9rem; letter-spacing: 0.35em; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <!-- background image -->
+    <img class="bg" src="background.png" alt="" aria-hidden="true" />
+    <div class="overlay"></div>
+
+    <div class="content">
+
+      <div class="monogram">
+        G <span class="monogram-divider">|</span> N
+      </div>
+
+      <p class="bismillah">In the name of Allah,<br>the Most Gracious, the Most Merciful.</p>
+
+      <div class="parents">
+        Mr. Khalil Ahmed<br>
+        Mrs. Abida Naseem<br>
+        <span class="ampersand-small">&amp;</span>
+        Late Mr. Iqbal Shaikh<br>
+        Mrs. Anjum Shaikh
+      </div>
+
+      <p class="invite-text">Invite you to celebrate the union of</p>
+
+      <div class="names">
+        <span class="name">GOHAR</span>
+        <span class="ampersand-large">&amp;</span>
+        <span class="name">NAVEED</span>
+      </div>
+
+      <div class="divider-line"></div>
+
+      <p class="date">August 16<sup>th</sup> 2026</p>
+      <p class="time">two o'clock in the afternoon</p>
+      <p class="venue">10395 Av. Pelletier, Montréal-Nord, QC H1H&nbsp;2N9</p>
+
+      <p class="dinner">Dinner to follow</p>
+
+      <div class="rsvp-wrap">
+        <button class="rsvp-btn" onclick="openModal()">RSVP</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RSVP Modal -->
+  <div class="modal-backdrop" id="modal" role="dialog" aria-modal="true" aria-label="RSVP">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal()" aria-label="Close">&times;</button>
+
+      <div id="modal-form-wrap">
+        <h2>R S V P</h2>
+        <p class="modal-sub">Gohar &amp; Naveed — August 16, 2026</p>
+
+        <form id="rsvp-form" onsubmit="submitRSVP(event)">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="name" placeholder="Your name" required />
+
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="your@email.com" required />
+
+          <label for="attendance">Attendance</label>
+          <select id="attendance" name="attendance" required>
+            <option value="" disabled selected>— Please select —</option>
+            <option value="yes">Joyfully accepts</option>
+            <option value="no">Regretfully declines</option>
+          </select>
+
+          <label for="guests">Number of Guests</label>
+          <select id="guests" name="guests">
+            <option value="1">1 — Just me</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+
+          <button type="submit" class="modal-submit">Send RSVP</button>
+        </form>
+      </div>
+
+      <div class="modal-thanks" id="modal-thanks">
+        <p>Jazakallah Khair for your response.<br>We look forward to celebrating with you.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openModal() {
+      document.getElementById('modal').classList.add('open');
+    }
+    function closeModal() {
+      document.getElementById('modal').classList.remove('open');
+    }
+    // close on backdrop click
+    document.getElementById('modal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+
+    function submitRSVP(e) {
+      e.preventDefault();
+      document.getElementById('modal-form-wrap').style.display = 'none';
+      document.getElementById('modal-thanks').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
