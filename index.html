@@ -492,10 +492,25 @@
     document.addEventListener('keydown',function(e){
       if(e.key==='Escape')closeModal();
     });
+    var SHEET_URL = 'https://script.google.com/macros/s/AKfycbxX1a4L6ITfZevR_7s0pOdyJqwV6BGWS3o2II2zf0AF2PSI6dKaJcDiVN_6IBqorV7GZA/exec';
+
     function submitRSVP(e){
       e.preventDefault();
       var form=document.getElementById('formWrap');
       var thanks=document.getElementById('modalThanks');
+
+      fetch(SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name:       document.getElementById('rname').value.trim(),
+          email:      document.getElementById('remail').value.trim(),
+          attendance: document.getElementById('attendance').value,
+          guests:     document.getElementById('guests').value
+        })
+      }).catch(function(){});
+
       form.style.transition='opacity 0.28s ease';
       form.style.opacity='0';
       setTimeout(function(){
